@@ -14,6 +14,8 @@ class HomePage extends Controller
      */
     public function __invoke(Request $request)
     {
+        $user = auth()->user();
+
         return view('home');
     }
 }
