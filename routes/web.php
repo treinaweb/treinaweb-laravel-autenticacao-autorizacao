@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', HomePage::class)->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', HomePage::class)->name('home');
+    Route::post('/logout', [AutheticationController::class, 'logout'])->name('logout');
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,4 +30,3 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register')
 
 Route::get('/login', [AutheticationController::class, 'login'])->name('login.form');
 Route::post('/login', [AutheticationController::class, 'logar'])->name('login');
-Route::post('/logout', [AutheticationController::class, 'logout'])->name('logout');
