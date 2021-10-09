@@ -29,6 +29,8 @@ class RegisterController extends Controller
         $dados = $request->only(['name', 'email', 'password']);
         $dados['password'] = Hash::make($dados['password']);
 
-        return User::create($dados);
+        User::create($dados);
+
+        return redirect()->route('home');
     }
 }
