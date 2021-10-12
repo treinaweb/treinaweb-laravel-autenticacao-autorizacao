@@ -10,11 +10,22 @@ use Illuminate\Support\Facades\Password;
 
 class PasswordResetController extends Controller
 {
+    /**
+     * Mostra o formulário para requisitar mensagem de recuperação de senha
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function request()
     {
         return view('auth.passwords.email');
     }
 
+    /**
+     * Envia a mensagem de email para o endereço do usuário
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function email(Request $request)
     {
         $request->validate([
@@ -30,11 +41,22 @@ class PasswordResetController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
+    /**
+     * Mostra o form de alteração da senha
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function reset()
     {
         return view('auth.passwords.reset');
     }
 
+    /**
+     * Realiza a alteração da senha no banco de dados
+     *
+     * @param Request $request
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $request->validate([

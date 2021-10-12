@@ -7,14 +7,24 @@ use Illuminate\Support\Facades\Auth;
 
 class AutheticationController extends Controller
 {
+    /**
+     * Mostra o formulário de login
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function login()
     {
         return view('auth.login');
     }
 
+    /**
+     * Realiza login com os dados enviados
+     *
+     * @param Request $request
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function logar(Request $request)
     {
-
         $dados = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
@@ -31,6 +41,12 @@ class AutheticationController extends Controller
         ]);
     }
 
+    /**
+     * Realiza logout do usuário
+     *
+     * @param Request $request
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();
