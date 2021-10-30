@@ -3,6 +3,7 @@
 use App\Http\Controllers\AutheticationController;
 use App\Http\Controllers\HomePage;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', HomePage::class)->name('home');
     Route::post('/logout', [AutheticationController::class, 'logout'])->name('logout');
+
+    Route::resource('posts', PostsController::class);
 });
 
 Route::get('/', function () {
