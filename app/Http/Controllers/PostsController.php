@@ -7,6 +7,7 @@ use App\Http\Requests;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
@@ -51,9 +52,9 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
+
         Post::create($requestData);
 
         return redirect('posts')->with('flash_message', 'Post added!');
@@ -82,6 +83,10 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('update-post')) {
+            abort(403);
+        }
+
         $post = Post::findOrFail($id);
 
         return view('posts.edit', compact('post'));
@@ -97,9 +102,12 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        if (!Gate::allows('update-post')) {
+            abort(403);
+        }
+
         $requestData = $request->all();
-        
+
         $post = Post::findOrFail($id);
         $post->update($requestData);
 
