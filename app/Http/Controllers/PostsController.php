@@ -83,11 +83,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $gateResponse = Gate::inspect('update-post');
-
-        if (!$gateResponse->allowed()) {
-            abort(403, $gateResponse->message());
-        }
+        Gate::authorize('update-post');
 
         $post = Post::findOrFail($id);
 
@@ -104,9 +100,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!Gate::allows('update-post')) {
-            abort(403);
-        }
+        Gate::authorize('update-post');
 
         $requestData = $request->all();
 
