@@ -83,7 +83,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        Gate::authorize('update-post');
+        Gate::authorize('update', Post::class);
 
         $post = Post::findOrFail($id);
 
@@ -100,7 +100,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Gate::authorize('update-post');
+        Gate::authorize('update', Post::class);
 
         $requestData = $request->all();
 
@@ -121,7 +121,7 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        Gate::authorize('delete-post', $post);
+        Gate::authorize('delete', $post);
 
         Post::destroy($id);
 

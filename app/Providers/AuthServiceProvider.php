@@ -15,6 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Post' => 'App\Policies\PostPolicy',
     ];
 
     /**
@@ -26,20 +27,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('update-post', function ($user) {
-            if ($user->type == 'admin') {
-                return Response::allow();
-            }
+        // Gate::define('update-post', function ($user) {
+        //     if ($user->type == 'admin') {
+        //         return Response::allow();
+        //     }
 
-            return Response::deny('Você precisa ter permissão de admin');
-        });
+        //     return Response::deny('Você precisa ter permissão de admin');
+        // });
 
-        Gate::define('delete-post', function ($user, $post) {
-            if ($post->owner == $user->id) {
-                return Response::allow();
-            }
+        // Gate::define('delete-post', function ($user, $post) {
+        //     if ($post->owner == $user->id) {
+        //         return Response::allow();
+        //     }
 
-            return Response::deny('Somente o dono pode excluir um post');
-        });
+        //     return Response::deny('Somente o dono pode excluir um post');
+        // });
     }
 }
