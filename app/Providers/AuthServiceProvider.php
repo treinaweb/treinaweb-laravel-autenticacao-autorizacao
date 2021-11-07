@@ -33,5 +33,13 @@ class AuthServiceProvider extends ServiceProvider
 
             return Response::deny('Você precisa ter permissão de admin');
         });
+
+        Gate::define('delete-post', function ($user, $post) {
+            if ($post->owner == $user->id) {
+                return Response::allow();
+            }
+
+            return Response::deny('Somente o dono pode excluir um post');
+        });
     }
 }

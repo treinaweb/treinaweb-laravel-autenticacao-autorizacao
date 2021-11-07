@@ -119,6 +119,10 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::findOrFail($id);
+
+        Gate::authorize('delete-post', $post);
+
         Post::destroy($id);
 
         return redirect('posts')->with('flash_message', 'Post deleted!');
