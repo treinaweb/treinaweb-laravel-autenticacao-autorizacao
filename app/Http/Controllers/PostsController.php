@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
-
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -67,10 +70,8 @@ class PostsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
-
         return view('posts.show', compact('post'));
     }
 
@@ -81,12 +82,8 @@ class PostsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        Gate::authorize('update', Post::class);
-
-        $post = Post::findOrFail($id);
-
         return view('posts.edit', compact('post'));
     }
 
@@ -98,13 +95,10 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        Gate::authorize('update', Post::class);
-
         $requestData = $request->all();
 
-        $post = Post::findOrFail($id);
         $post->update($requestData);
 
         return redirect('posts')->with('flash_message', 'Post updated!');
@@ -117,13 +111,9 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
-
-        Gate::authorize('delete', $post);
-
-        Post::destroy($id);
+        Post::destroy($post->id);
 
         return redirect('posts')->with('flash_message', 'Post deleted!');
     }
